@@ -16,6 +16,15 @@ app.config["UPLOADED_MUSIC_DEST"] = "static/audio"
 app.config["JSON_AS_ASCII"] = False
 configure_uploads(app, music)
 
+@app.route('/start', methods=["POST"])
+def start():
+    file_name = request.form["file_name"]
+    freq = request.form["freq"]
+    radio_text = request.form["radio_text"]
+    m = subprocess.Popen("./pi_fm_adv --audio " + file_name + " --freq " + freq + " --rt " + radio_text)
+    m.wait()
+    return jsonify(), 200
+
 @app.route('/sysinfo')
 def sysinfo():
     return jsonify(get_sysinfo()), 200
