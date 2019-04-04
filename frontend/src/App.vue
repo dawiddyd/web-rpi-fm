@@ -1,10 +1,23 @@
 <template>
   <div id="app">
     <div v-show="api.loading" class="overlay">
-      <div class="loader"></div>
+      <div class="lds-default">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
     <div id="background"
-      :style="'background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(' + this.api.now_playing + ');'">
+      :style="'background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(' + this.api.now_playing_cover + ');'">
     </div>
     <div class="d-flex" id="wrapper">
       <!-- Sidebar -->
@@ -17,12 +30,6 @@
           <router-link class="list-group-item" to="/mymusic">My Music</router-link>
           <router-link class="list-group-item" to="/settings">Settings</router-link>
         </div>
-        <!-- <button class="btn btn-primary">Upload music</button>
-
-
-        <div class="upload-btn-wrapper">
-          <button class="btn">Upload a file</button>
-          <input type="file" name="myfile" /> -->
 
         <form @submit.prevent="uploadFile" class="mb-2">
           <div class="upload-btn-wrapper d-flex justify-content-center">
@@ -31,23 +38,13 @@
           </div>
           <button type="submit" class="btn btn-primary">Upload music</button>
         </form>
-
-        <!-- <form @submit.prevent="uploadFile" class="mb-2">
-          <div class="row mb-3">
-            <input class="" type="file" @change="onFileChange" id="changeFile">
-          </div>
-          <button type="submit" class="btn btn-primary">Upload music</button>
-        </form> -->
-
-
       </div>
-
 
     </div>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
-    <div id="page-content-wrapper">
+    <div class="mt-1" id="page-content-wrapper">
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
@@ -70,9 +67,6 @@
 </template>
 
 <script>
-  // @ is an alias to /src
-  // import HelloWorld from '@/components/HelloWorld.vue';
-
   export default {
 
     data() {
@@ -132,16 +126,6 @@
     display: inline-block;
   }
 
-
-
-  // .upload-btn-wrapper input[type=file] {
-  //   font-size: 100px;
-  //   position: absolute;
-  //   left: 0;
-  //   top: 0;
-  //   opacity: 0;
-  // }
-
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity .3s;
@@ -149,8 +133,6 @@
 
   .fade-enter,
   .fade-leave-to
-
-  /* .fade-leave-active below version 2.1.8 */
     {
     opacity: 0;
   }
@@ -259,7 +241,7 @@
     width: 100%;
     position: fixed;
     bottom: 0px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.3);
   }
 
   .media-progress-bar {
@@ -289,75 +271,111 @@
     /* Black fallback color */
     background-color: rgba(0, 0, 0, 0.6);
     /* Black w/opacity */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .loader,
-  .loader:before,
-  .loader:after {
+  .lds-default {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+
+  .lds-default div {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #fff;
     border-radius: 50%;
-    width: 2.5em;
-    height: 2.5em;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    -webkit-animation: load7 1.8s infinite ease-in-out;
-    animation: load7 1.8s infinite ease-in-out;
+    animation: lds-default 1.2s linear infinite;
   }
 
-  .loader {
-    color: #ffffff;
-    font-size: 10px;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-40%, -50%);
-    text-indent: -9999em;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation-delay: -0.16s;
-    animation-delay: -0.16s;
+  .lds-default div:nth-child(1) {
+    animation-delay: 0s;
+    top: 29px;
+    left: 53px;
   }
 
-  .loader:before,
-  .loader:after {
-    content: '';
-    position: absolute;
-    top: 0;
+  .lds-default div:nth-child(2) {
+    animation-delay: -0.1s;
+    top: 18px;
+    left: 50px;
   }
 
-  .loader:before {
-    left: -3.5em;
-    -webkit-animation-delay: -0.32s;
-    animation-delay: -0.32s;
+  .lds-default div:nth-child(3) {
+    animation-delay: -0.2s;
+    top: 9px;
+    left: 41px;
   }
 
-  .loader:after {
-    left: 3.5em;
+  .lds-default div:nth-child(4) {
+    animation-delay: -0.3s;
+    top: 6px;
+    left: 29px;
   }
 
-  @-webkit-keyframes load7 {
+  .lds-default div:nth-child(5) {
+    animation-delay: -0.4s;
+    top: 9px;
+    left: 18px;
+  }
+
+  .lds-default div:nth-child(6) {
+    animation-delay: -0.5s;
+    top: 18px;
+    left: 9px;
+  }
+
+  .lds-default div:nth-child(7) {
+    animation-delay: -0.6s;
+    top: 29px;
+    left: 6px;
+  }
+
+  .lds-default div:nth-child(8) {
+    animation-delay: -0.7s;
+    top: 41px;
+    left: 9px;
+  }
+
+  .lds-default div:nth-child(9) {
+    animation-delay: -0.8s;
+    top: 50px;
+    left: 18px;
+  }
+
+  .lds-default div:nth-child(10) {
+    animation-delay: -0.9s;
+    top: 53px;
+    left: 29px;
+  }
+
+  .lds-default div:nth-child(11) {
+    animation-delay: -1s;
+    top: 50px;
+    left: 41px;
+  }
+
+  .lds-default div:nth-child(12) {
+    animation-delay: -1.1s;
+    top: 41px;
+    left: 50px;
+  }
+
+  @keyframes lds-default {
 
     0%,
+    20%,
     80%,
     100% {
-      box-shadow: 0 2.5em 0 -1.3em;
+      transform: scale(1);
     }
 
-    40% {
-      box-shadow: 0 2.5em 0 0;
-    }
-  }
-
-  @keyframes load7 {
-
-    0%,
-    80%,
-    100% {
-      box-shadow: 0 2.5em 0 -1.3em;
-    }
-
-    40% {
-      box-shadow: 0 2.5em 0 0;
+    50% {
+      transform: scale(1.5);
     }
   }
 

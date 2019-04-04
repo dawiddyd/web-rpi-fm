@@ -11,9 +11,16 @@
                 <th scope="col">Name</th>
                 <th scope="col">Author</th>
                 <th scope="col">Length</th>
+                <th scope="col"></th>
               </tr>
             </thead>
+            
             <tbody>
+              <tr v-if="api.songs == undefined">
+                <td colspan="4">
+               <h4 style="opacity: 0.4">Your playlist is currently empty</h4>
+               </td>
+              </tr>
               <tr v-for="(song, index) in api.songs" :key="song.name">
                 <!-- <td>
                   {{ index }}
@@ -34,6 +41,9 @@
                 <td>
                   <span v-if="song.length">{{song.length / 60}} min</span>
                   <span v-else>Unknown length</span>
+                </td>
+                <td>
+                  <img src="../assets/play-button.svg" class="ml-2 mr-2" height="20px">
                 </td>
               </tr>
             </tbody>

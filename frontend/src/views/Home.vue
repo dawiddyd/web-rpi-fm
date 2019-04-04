@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <div class="container-fluid">
-      <img :src="this.api.now_playing" class="media-cover">
-      <h1 class="media-title">Szprycer</h1>
-      <h5 class="media-artist">Taco Hemingway</h5>
-      <input class="mb-2" id="frequency" type="text" value="90.0Hz"><br />
+      <img :src="this.api.now_playing_cover" class="media-cover">
+      <h1 class="media-title">{{ this.api.now_playing_title }}</h1>
+      <h5 class="media-artist">{{ this.api.now_playing_artist }}</h5>
+      <input class="mb-2" id="frequency" type="text" :value="this.api.now_playing_freq"><br />
       <button class="btn btn-primary">Save</button>
     </div>
   </div>
