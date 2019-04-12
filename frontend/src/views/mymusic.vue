@@ -14,19 +14,16 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            
+
             <tbody>
               <tr v-if="api.songs == undefined">
                 <td colspan="4">
-               <h4 style="opacity: 0.4">Your playlist is currently empty</h4>
-               </td>
+                  <h4 style="opacity: 0.4">Your playlist is currently empty</h4>
+                </td>
               </tr>
               <tr v-for="(song, index) in api.songs" :key="song.name">
-                <!-- <td>
-                  {{ index }}
-                </td> -->
                 <td>
-                  <img v-if="song.img" :src="'http://localhost:9000/static/img/' + song.img"
+                  <img v-if="song.img" :src="'http://192.168.0.107:9000/static/img/' + song.img"
                     width="40">
                   <img v-else src="../assets/default-cover.png" width="40">
                 </td>
@@ -43,22 +40,22 @@
                   <span v-else>Unknown length</span>
                 </td>
                 <td>
-                  <img src="../assets/play-button.svg" class="ml-2 mr-2" height="20px">
+                  <img v-if="api.status.name != song.name"
+                    @click="startPlaying(song.filename, api.now_playing_freq, 'web-rpi-fm')"
+                    src="../assets/play-button.svg" class="ml-2 mr-2" height="30px">
+                  <img v-else @click="stopPlaying()" src="../assets/pause.svg" class="ml-2 mr-2"
+                    height="30px">
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-  // @ is an alias to /src
-  // import HelloWorld from '@/components/HelloWorld.vue';
-
   export default {
     name: 'mymusic',
     components: {},
@@ -72,6 +69,26 @@
     async created() {
       this.api.songs = await this.api.getLs();
       console.log(this.api.songs);
+    },
+
+    methods: {
+      async startPlaying(file_name, freq, radio_text) {
+        try {
+          await this.api.startPlaying(file_name, freq, radio_text);
+          this.api.status = await this.api.getStatus();
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
+
+      async stopPlaying() {
+        try {
+          await this.api.stopPlaying();
+          this.api.status = await this.api.getStatus();
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
     },
 
   };

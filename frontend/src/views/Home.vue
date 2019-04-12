@@ -1,19 +1,22 @@
 <template>
   <div class="home">
     <div class="container-fluid">
-      <img :src="this.api.now_playing_cover" class="media-cover">
-      <h1 class="media-title">{{ this.api.now_playing_title }}</h1>
-      <h5 class="media-artist">{{ this.api.now_playing_artist }}</h5>
-      <input class="mb-2" id="frequency" type="text" :value="this.api.now_playing_freq"><br />
-      <button class="btn btn-primary">Save</button>
+      <img v-if="api.status.img" :src="api.baseurl + '/static/img/' + api.status.img"
+        class="media-cover">
+      <img v-else class="media-cover" src="../assets/default-cover.png">
+      <h1 v-if="api.status.name" class="media-title">{{ api.status.name }}</h1>
+      <h1 v-else class="media-title">Nothing playing</h1>
+      <h5 v-if="api.status.name" class="media-artist">{{ api.status.author }}</h5>
+      <h5 v-else class="media-artist">Play music in the My Music page</h5>
+      <form @submit.prevent="changeFreq" class="mb-2">
+        <input class="mb-2" id="frequency" type="text" :value="this.api.now_playing_freq"><br />
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-  // @ is an alias to /src
-  // import HelloWorld from '@/components/HelloWorld.vue';
-
   export default {
     name: 'home',
     components: {},
@@ -23,6 +26,20 @@
 
       }
     },
+
+    async created() {
+      console.log(this.api.status);
+    },
+
+    methods: {
+      async changeFreq(freq) {
+        try {
+          await this.api.changeFreq(freq);
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
+    }
   };
 
 </script>

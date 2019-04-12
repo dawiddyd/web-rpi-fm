@@ -16,9 +16,16 @@
         <div></div>
       </div>
     </div>
-    <div id="background"
-      :style="'background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(' + this.api.now_playing_cover + ');'">
+    <div v-if="api.status.img" id="background"
+      :style="'background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(' + api.baseurl + '/static/img/' + api.status.img">
     </div>
+
+    <div v-else-if="api.status.img == null" id="background"
+      style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./assets/default-cover.jpg')">
+    </div>
+
+    <!-- do naprawy -->
+
     <div class="d-flex" id="wrapper">
       <!-- Sidebar -->
       <div id="sidebar-wrapper">
@@ -57,7 +64,10 @@
 
       </div>
       <img src="./assets/back.svg" height="40px" class="ml-2 mr-2">
-      <img src="./assets/play-button.svg" class="ml-2 mr-2" height="40px">
+
+      <img v-if="!api.status.name" src="./assets/play-button.svg" class="ml-2 mr-2" height="40px">
+      <img v-else @click="stopPlaying()" src="./assets/pause.svg" class="ml-2 mr-2" height="40px">
+
       <img src="./assets/next.svg" height="40px" class="ml-2 mr-2">
     </div>
 
@@ -75,6 +85,10 @@
       }
     },
 
+    async created() {
+      this.api.status = await this.api.getStatus();
+    },
+
     mounted() {
       $("#menu-toggle").click(function (e) {
         e.preventDefault();
@@ -84,7 +98,7 @@
 
       $(".media-progress-bar").animate({
         width: "100%"
-      }, 40000)
+      }, 6000)
 
       // var width = $('.media-progress-bar').css("width");
       //         if (width == "100%"){
@@ -111,6 +125,23 @@
         } else
           await this.api.setError("Błąd!", "Nie udało się wysłąć pliku");
       },
+      async startPlaying() {
+        try {
+          await this.api.startPlaying();
+          this.api.status = await this.api.getStatus();
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
+
+      async stopPlaying() {
+        try {
+          await this.api.stopPlaying();
+          this.api.status = await this.api.getStatus();
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
     },
   };
 
@@ -132,8 +163,7 @@
   }
 
   .fade-enter,
-  .fade-leave-to
-    {
+  .fade-leave-to {
     opacity: 0;
   }
 
