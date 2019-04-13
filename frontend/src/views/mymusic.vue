@@ -21,7 +21,7 @@
                   <h4 style="opacity: 0.4">Your playlist is currently empty</h4>
                 </td>
               </tr>
-              <tr v-for="(song, index) in api.songs" :key="song.name">
+              <tr v-for="song in api.songs" :key="song.filename">
                 <td>
                   <img v-if="song.img" :src="'http://192.168.0.107:9000/static/img/' + song.img"
                     width="40">
@@ -36,15 +36,15 @@
                   <span v-else>Unknown author</span>
                 </td>
                 <td>
-                  <span v-if="song.length">{{song.length / 60}} min</span>
+                  <span v-if="song.length">{{Number((song.length / 60).toFixed(1))}} min</span>
                   <span v-else>Unknown length</span>
                 </td>
                 <td>
                   <img v-if="api.status.name != song.name"
-                    @click="startPlaying(song.filename, api.now_playing_freq, 'web-rpi-fm')"
-                    src="../assets/play-button.svg" class="ml-2 mr-2" height="30px">
-                  <img v-else @click="stopPlaying()" src="../assets/pause.svg" class="ml-2 mr-2"
-                    height="30px">
+                    @click="startPlaying(song.filename, api.now_playing_freq, song.filename, song.length)"
+                    src="../assets/play-button.svg" class="playback-nav ml-2 mr-2" height="30px">
+                  <img v-else @click="stopPlaying()" src="../assets/pause.svg"
+                    class="playback-nav ml-2 mr-2" height="30px">
                 </td>
               </tr>
             </tbody>
@@ -56,46 +56,47 @@
 </template>
 
 <script>
-  export default {
-    name: 'mymusic',
-    components: {},
+export default {
+  name: 'mymusic',
+  components: {},
 
-    data() {
-      return {
+  async created() {
+    this.api.songs = await this.api.getLs();
+  },
 
+  methods: {
+    async startPlaying(file_name, freq, radio_text, length) {
+      try {
+        await this.api.startPlaying(file_name, freq, radio_text);
+        this.api.status = await this.api.getStatus();
+
+        $('.media-progress-bar').stop(true).css(
+          'width', '0%',
+        ),
+
+        $('.media-progress-bar').animate({
+          width: '100%',
+        }, length * 600);
+      } catch (e) {
+        this.api.processException(e);
       }
     },
 
-    async created() {
-      this.api.songs = await this.api.getLs();
-      console.log(this.api.songs);
+    async stopPlaying() {
+      try {
+        await this.api.stopPlaying();
+        this.api.status = await this.api.getStatus();
+      } catch (e) {
+        this.api.processException(e);
+      }
     },
+  },
 
-    methods: {
-      async startPlaying(file_name, freq, radio_text) {
-        try {
-          await this.api.startPlaying(file_name, freq, radio_text);
-          this.api.status = await this.api.getStatus();
-        } catch (e) {
-          this.api.processException(e);
-        }
-      },
-
-      async stopPlaying() {
-        try {
-          await this.api.stopPlaying();
-          this.api.status = await this.api.getStatus();
-        } catch (e) {
-          this.api.processException(e);
-        }
-      },
-    },
-
-  };
+};
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .table {
     font-weight: 200;
   }
@@ -108,6 +109,15 @@
 
   td {
     border: 0px;
+  }
+
+  .playback-nav {
+    cursor: pointer;
+    transition: 100ms;
+
+    &:hover {
+      transform: scale(1.1)
+    }
   }
 
 </style>

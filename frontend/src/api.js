@@ -1,17 +1,14 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 
 export const api = {
-  error: null,
+  error: false,
   loading: false,
   baseurl: '',
   songs: [],
   status: [],
-  now_playing_cover: require('./assets/cover2.jpg'),
-  now_playing_title: '',
-  now_playing_artist: '',
-  now_playing_freq: '90.0',
-
+  now_playing_freq: '107.9',
 
   async getLs() {
     this.loading = true;
@@ -33,7 +30,9 @@ export const api = {
       return status;
     } catch (e) {
       this.processException(e);
+      const status = [];
       this.loading = false;
+      return status;
     }
   },
 
@@ -47,7 +46,7 @@ export const api = {
           'Content-Type': 'multipart/form-data',
         },
       });
-      this.setSuccess('', 'Pomyślnie zmieniono avatar');
+      this.setSuccess('', 'File send successfully');
       this.loading = false;
     } catch (e) {
       this.processException(e);
@@ -65,7 +64,6 @@ export const api = {
         radio_text,
       });
       this.loading = false;
-      // this.setSuccess('Sukces!', 'Rejestracja przebiegła pomyślnie. Proszę się zalogować.');
     } catch (e) {
       this.loading = false;
       this.processException(e);
@@ -90,16 +88,16 @@ export const api = {
     } else if (e.response && e.response.data && e.response.data.message) {
       this.setError(e.response.data.title, e.response.data.message);
     } else if (e.response && e.response.status) {
-      this.setError(`Nieznany błąd ${e.response.status}`, e);
+      this.setError(`Unknown error ${e.response.status}`, e);
     } else {
-      this.setError('Nieznany błąd', e.toString());
+      this.setError('Unknown error', e.toString());
     }
   },
 
   setError(title, body) {
     if (!body) {
       this.error = {
-        title: 'Wystąpił błąd',
+        title: 'An error occured',
         body: title,
         isError: true,
       };
@@ -115,7 +113,7 @@ export const api = {
   setSuccess(title, body) {
     if (!body) {
       this.error = {
-        title: 'Sukces!',
+        title: 'Success!',
         body: title,
         isError: false,
       };
@@ -131,6 +129,4 @@ export const api = {
   clearError() {
     this.error = null;
   },
-
-
 };

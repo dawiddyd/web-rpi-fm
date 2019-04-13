@@ -9,7 +9,7 @@
       <h5 v-if="api.status.name" class="media-artist">{{ api.status.author }}</h5>
       <h5 v-else class="media-artist">Play music in the My Music page</h5>
       <form @submit.prevent="changeFreq" class="mb-2">
-        <input class="mb-2" id="frequency" type="text" :value="this.api.now_playing_freq"><br />
+        <input class="mb-2" id="frequency" type="text" :value="api.now_playing_freq"><br />
         <button type="submit" class="btn btn-primary">Save</button>
       </form>
     </div>
@@ -17,34 +17,24 @@
 </template>
 
 <script>
-  export default {
-    name: 'home',
-    components: {},
-
-    data() {
-      return {
-
-      }
-    },
-
-    async created() {
-      console.log(this.api.status);
-    },
-
-    methods: {
-      async changeFreq(freq) {
-        try {
-          await this.api.changeFreq(freq);
-        } catch (e) {
-          this.api.processException(e);
-        }
-      },
-    }
-  };
+export default {
+  name: 'home',
+  components: {},
+  methods: {
+    // async changeFreq() {
+    //   try {
+    //     // await this.api.changeFreq(freq);
+    //     this.api.now_playing_freq = this.new_frequency;
+    //   } catch (e) {
+    //     this.api.processException(e);
+    //   }
+    // },
+  },
+};
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   @import url('https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,700');
 
   .media-cover {

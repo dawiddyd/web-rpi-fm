@@ -3,8 +3,8 @@
     <div class="container-fluid">
       <div class="container">
         <h1>Settings</h1>
-        <div class="row mt-4">
-          
+        <div class="row d-flex justify-content-center mt-4">
+          <h1 style="opacity: 0.4;">Nothing to set up</h1>
         </div>
       </div>
 
@@ -13,25 +13,13 @@
 </template>
 
 <script>
-  export default {
-    name: 'settings',
-    components: {},
-
-    data() {
-      return {
-
-      }
-    },
-
-    async created() {
-      
-    },
-
-  };
+export default {
+  name: 'settings',
+  components: {},
+};
 
 </script>
 
 <style scoped>
-  
 
 </style>
