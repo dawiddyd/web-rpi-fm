@@ -30,13 +30,17 @@ export default {
     },
 
     async stopPlaying() {
-      try {
-        await this.api.stopPlaying();
-        this.api.status = await this.api.getStatus();
-      } catch (e) {
-        this.api.processException(e);
-      }
-    },
+        try {
+          await this.api.stopPlaying();
+          window.clearInterval(this.timer);
+          $('.media-progress-bar').stop(true).css(
+            'width', '0%'
+          );
+          this.api.status = await this.api.getStatus();
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
   },
 };
 

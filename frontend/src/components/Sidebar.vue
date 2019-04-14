@@ -33,11 +33,6 @@ export default {
       $('#wrapper').toggleClass('toggled');
       // $("#menu-toggle").css("display", "none");
     });
-
-    // var width = $('.media-progress-bar').css("width");
-    //         if (width == "100%"){
-    //           $('.media-progress-bar').css("width", "0%");
-    //         };
   },
   methods: {
     onFileChange(event) {

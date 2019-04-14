@@ -47,34 +47,34 @@
 </template>
 
 <script>
-import PlaybackBar from '@/components/PlaybackBar.vue';
-import LoadingScreen from '@/components/LoadingScreen.vue';
-import Sidebar from '@/components/Sidebar.vue';
+  import PlaybackBar from '@/components/PlaybackBar.vue';
+  import LoadingScreen from '@/components/LoadingScreen.vue';
+  import Sidebar from '@/components/Sidebar.vue';
 
-export default {
+  export default {
 
-  data() {
-    return {
-      file: '',
-    };
-  },
-  components: {
-    PlaybackBar,
-    LoadingScreen,
-    Sidebar,
-  },
-
-  async created() {
-    this.api.status = await this.api.getStatus();
-  },
-
-  methods: {
-    closePopup() {
-      $('.popup-small').hide();
-      this.api.clearError();
+    data() {
+      return {
+        file: '',
+      };
     },
-  },
-};
+    components: {
+      PlaybackBar,
+      LoadingScreen,
+      Sidebar,
+    },
+
+    async created() {
+      this.api.status = await this.api.getStatus();
+    },
+
+    methods: {
+      closePopup() {
+        $('.popup-small').hide();
+        this.api.clearError();
+      },
+    },
+  };
 
 </script>
 

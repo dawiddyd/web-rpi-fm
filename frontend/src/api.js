@@ -36,6 +36,16 @@ export const api = {
     }
   },
 
+  async getTimeElapsed() {
+    try {
+      this.status.time_elapsed = (await axios.get('/status')).data.time_elapsed;
+    } catch (e) {
+      this.processException(e);
+      // const status = [];
+      // return status;
+    }
+  },
+
 
   async uploadFile(formData) {
     this.loading = true;
@@ -46,7 +56,7 @@ export const api = {
           'Content-Type': 'multipart/form-data',
         },
       });
-      this.setSuccess('', 'File send successfully');
+      this.setSuccess('', 'File sent successfully');
       this.loading = false;
     } catch (e) {
       this.processException(e);
@@ -70,11 +80,41 @@ export const api = {
     }
   },
 
+  async nextSong(file_name, freq, radio_text) {
+    this.loading = true;
+    try {
+      this.clearError();
+      await axios.post('/start', {
+        file_name,
+        freq,
+        radio_text,
+      });
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
+      this.processException(e);
+    }
+  },
+
   async stopPlaying() {
     this.loading = true;
     try {
       this.clearError();
       await axios.post('/stop');
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
+      this.processException(e);
+    }
+  },
+
+  async deleteFile(filename) {
+    this.loading = true;
+    try {
+      this.clearError();
+      await axios.post('/delete', {
+        filename,
+      });
       this.loading = false;
     } catch (e) {
       this.loading = false;
