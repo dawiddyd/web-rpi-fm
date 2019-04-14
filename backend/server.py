@@ -147,7 +147,7 @@ def upload():
         return filename
 
 @app.route('/delete', methods=["POST"])
-def upload():
+def delete():
     if request.method == "POST":
         json = request.get_json()
         filename = json["filename"]
