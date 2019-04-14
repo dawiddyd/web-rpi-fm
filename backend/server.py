@@ -146,6 +146,20 @@ def upload():
                 x.write(image_data)
         return filename
 
+@app.route('/delete', methods=["POST"])
+def upload():
+    if request.method == "POST":
+        json = request.get_json()
+        filename = json["filename"]
+        os.remove("static/audio/" + filename)
+        try:
+            image_name = filename.split(".")[0]
+            os.remove("static/audio/" + image_name + ".png")
+        except:
+            pass
+
+        return jsonify(), 200
+
 if __name__ == "__main__":
     subprocess.Popen("sudo killall pifmrds", shell=True)
     app.run(port=9000, host='0.0.0.0')
