@@ -8,29 +8,36 @@
       <h1 v-else class="media-title">Nothing playing</h1>
       <h5 v-if="api.status.name" class="media-artist">{{ api.status.author }}</h5>
       <h5 v-else class="media-artist">Play music in the My Music page</h5>
-      <form @submit.prevent="changeFreq" class="mb-2">
-        <input class="mb-2" id="frequency" type="text" :value="api.now_playing_freq"><br />
-        <button type="submit" class="btn btn-primary">Save</button>
-      </form>
+      <input class="mb-2" id="frequency" type="number" step="0.1" placeholder="Frequency"
+        v-model="new_frequency"><br />
+      <button type="submit" class="btn btn-primary">Save</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'home',
-  components: {},
-  methods: {
-    // async changeFreq() {
-    //   try {
-    //     // await this.api.changeFreq(freq);
-    //     this.api.now_playing_freq = this.new_frequency;
-    //   } catch (e) {
-    //     this.api.processException(e);
-    //   }
-    // },
-  },
-};
+  export default {
+    name: 'home',
+    data() {
+      return {
+        new_frequency: 0,
+      }
+    },
+
+    mounted() {
+      if (localStorage) {
+        this.new_frequency = localStorage.freq;
+      }
+    },
+
+    watch: {
+      new_frequency: function () {
+        if (localStorage) {
+          localStorage.setItem('freq', this.new_frequency);
+        }
+      }
+    },
+  };
 
 </script>
 

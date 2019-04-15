@@ -42,10 +42,10 @@
                 </td>
                 <td>
                   <img v-if="api.status.name != song.name"
-                    @click="startPlaying(index, song.filename, api.now_playing_freq, song.filename, song.length)"
-                    src="../assets/play-button.svg" class="playback-nav ml-2 mr-2" height="30px">
+                    @click="startPlaying(index, song.filename, song.filename, song.length)"
+                    src="../assets/play-button.svg" class="playback-nav ml-2 mr-2" height="35px">
                   <img v-else @click="stopPlaying()" src="../assets/pause.svg"
-                    class="playback-nav ml-2 mr-2" height="30px">
+                    class="playback-nav ml-2 mr-2" height="35px">
                 </td>
                 <td>
                   <img class="playback-nav" @click="deleteFile(song.filename)"
@@ -79,11 +79,11 @@
     },
 
     methods: {
-      async startPlaying(index, file_name, freq, radio_text, length) {
+      async startPlaying(index, file_name, radio_text, length) {
         this.stopPlaying();
         try {
           console.log(index);
-          await this.api.startPlaying(file_name, freq, radio_text);
+          await this.api.startPlaying(file_name, radio_text);
           this.api.status = await this.api.getStatus();
           this.now_playing_index = index;
           $('.media-progress-bar').stop(true).css(
@@ -116,8 +116,7 @@
           index = parseInt(index);
           let songs = this.api.songs;
           // if (((index) % songs.length) >= 1) {
-          await this.startPlaying(index + 1, songs[index + 1].filename, this.api
-            .now_playing_freq,
+          await this.startPlaying(index + 1, songs[index + 1].filename,
             songs[index + 1].filename, songs[index + 1].length);
           // }
         } catch (e) {

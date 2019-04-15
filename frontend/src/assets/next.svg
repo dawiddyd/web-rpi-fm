@@ -1,9 +1,9 @@
-<svg id="next" xmlns="http://www.w3.org/2000/svg" width="188.135" height="188.135" viewBox="0 0 188.135 188.135">
-  <g id="next_1_">
-    <path id="Path_4" data-name="Path 4" d="M94.068,188.135a94.067,94.067,0,1,1,94.067-94.068A94.174,94.174,0,0,1,94.068,188.135ZM94.068,3a91.068,91.068,0,1,0,91.066,91.067A91.171,91.171,0,0,0,94.068,3Z" fill="#fff"/>
-    <g id="Group_1" data-name="Group 1">
-      <path id="Path_5" data-name="Path 5" d="M52.635,138.153V50.039L128.946,94.1Zm3-82.918v77.722L122.946,94.1Z" fill="#fff"/>
-      <rect id="Rectangle_5" data-name="Rectangle 5" width="3" height="82" transform="translate(132.635 53.096)" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="444.884" height="444.884" viewBox="0 0 444.884 444.884">
+  <g id="play-button" transform="translate(-33.558 -33.557)">
+    <path id="Path_2" data-name="Path 2" d="M217.442,0c120.09,0,217.442,97.352,217.442,217.442S337.532,434.884,217.442,434.884,0,337.532,0,217.442,97.352,0,217.442,0Z" transform="translate(38.558 38.557)" fill="none" stroke="#fff" stroke-width="10"/>
+    <g id="Group_1" data-name="Group 1" transform="translate(-2)">
+      <path id="Path_1" data-name="Path 1" d="M187.921,256V142.059l98.679,56.97L385.276,256,286.6,312.969l-98.679,56.972Z" transform="translate(-31)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="10"/>
+      <line id="Line_1" data-name="Line 1" y2="228" transform="translate(360.058 142.057)" fill="none" stroke="#fff" stroke-width="10"/>
     </g>
   </g>
 </svg>

@@ -8,7 +8,7 @@ export const api = {
   baseurl: '',
   songs: [],
   status: [],
-  now_playing_freq: '107.9',
+  now_playing_freq: localStorage.getItem('freq'),
 
   async getLs() {
     this.loading = true;
@@ -64,23 +64,9 @@ export const api = {
     }
   },
 
-  async startPlaying(file_name, freq, radio_text) {
-    this.loading = true;
-    try {
-      this.clearError();
-      await axios.post('/start', {
-        file_name,
-        freq,
-        radio_text,
-      });
-      this.loading = false;
-    } catch (e) {
-      this.loading = false;
-      this.processException(e);
-    }
-  },
-
-  async nextSong(file_name, freq, radio_text) {
+  async startPlaying(file_name, radio_text) {
+    this.now_playing_freq = localStorage.getItem('freq');
+    const freq = localStorage.getItem('freq');
     this.loading = true;
     try {
       this.clearError();
