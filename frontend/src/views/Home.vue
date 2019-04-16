@@ -8,8 +8,8 @@
       <h1 v-else class="media-title">Nothing playing</h1>
       <h5 v-if="api.status.name" class="media-artist">{{ api.status.author }}</h5>
       <h5 v-else class="media-artist">Play music in the My Music page</h5>
-      <input id="frequency" type="number" step="0.1" placeholder="Frequency"
-        v-model="new_frequency"><br />
+      <input id="frequency" autocomplete="off" min="0" type="number" step="0.1"
+        placeholder="Frequency" v-model="new_frequency"><br />
       <!-- <button type="submit" class="btn btn-primary">Save</button> -->
     </div>
   </div>
@@ -65,12 +65,16 @@
     padding: 0px;
     background: transparent;
     border: none;
-    font-size: 7.5rem;
-    width: 100%;
+    font-size: 6.5rem;
+    width: 300px;
     height: 100%;
     text-align: center;
     color: white;
     font-weight: 100;
+  }
+
+  input:focus {
+    outline: 0px;
   }
 
 </style>

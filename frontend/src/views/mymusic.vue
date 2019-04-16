@@ -16,8 +16,8 @@
           </thead>
 
           <tbody>
-            <tr v-if="this.api.songs.length == 0">
-              <td colspan="4">
+            <tr v-if="Object.keys(this.api.songs).length == 0">
+              <td colspan="6">
                 <h4 style="opacity: 0.4">Your playlist is currently empty</h4>
               </td>
             </tr>
@@ -42,12 +42,12 @@
               <td>
                 <img v-if="api.status.name != song.name"
                   @click="startPlaying(index, song.filename, song.filename, song.length)"
-                  src="../assets/play-button.svg" class="playback-nav ml-2 mr-2" height="35px">
+                  src="../assets/play-button.svg" class="hover-scale ml-2 mr-2" height="35px">
                 <img v-else @click="stopPlaying()" src="../assets/pause.svg"
-                  class="playback-nav ml-2 mr-2" height="35px">
+                  class="hover-scale ml-2 mr-2" height="35px">
               </td>
               <td>
-                <img class="playback-nav" @click="deleteFile(song.filename)"
+                <img class="hover-scale" @click="deleteFile(song.filename)"
                   src="../assets/trash-can.png" width="20">
               </td>
             </tr>
@@ -113,10 +113,10 @@
         try {
           index = parseInt(index);
           let songs = this.api.songs;
-          // if (((index) % songs.length) >= 1) {
-          await this.startPlaying(index + 1, songs[index + 1].filename,
-            songs[index + 1].filename, songs[index + 1].length);
-          // }
+          if (((index + 1) % Object.keys(this.api.songs).length) >= 1) {
+            await this.startPlaying(index + 1, songs[index + 1].filename,
+              songs[index + 1].filename, songs[index + 1].length);
+          }
         } catch (e) {
           this.api.processException(e);
         }
@@ -163,15 +163,6 @@
 
   td {
     border: 0px;
-  }
-
-  .playback-nav {
-    cursor: pointer;
-    transition: 100ms;
-
-    &:hover {
-      transform: scale(1.1)
-    }
   }
 
 </style>

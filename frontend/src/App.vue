@@ -78,9 +78,17 @@
 
 </script>
 
-
 <style lang="scss">
   @import url('https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,700');
+
+  .hover-scale {
+    cursor: pointer;
+    transition: 100ms;
+
+    &:hover {
+      transform: scale(1.1)
+    }
+  }
 
   .fade-enter-active,
   .fade-leave-active {

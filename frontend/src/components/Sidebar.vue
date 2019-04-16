@@ -2,18 +2,16 @@
   <div>
     <div class="d-flex" id="wrapper">
       <div id="sidebar-wrapper">
-        <button class="btn btn-default" id="menu-toggle">
-          <font-awesome-icon icon="bars" style="color: white; font-size: 1rem;" /> </button>
+        <button class="btn hover-scale" id="menu-toggle">
+          <font-awesome-icon icon="bars" style="color: white; font-size: 1.5rem;" /> </button>
         <div class="sidebar-heading">web-rpi-fm</div>
         <div class="list-group">
           <router-link class="list-group-item" to="/">Now playing</router-link>
           <router-link class="list-group-item" to="/mymusic">My Music</router-link>
           <router-link class="list-group-item" to="/settings">Settings</router-link>
         </div>
-
         <form @submit.prevent="uploadFile" class="mb-2">
           <div class="upload-btn-wrapper d-flex justify-content-center">
-            <!-- <button class="btn btn-primary mb-2">Upload a file</button> -->
             <input type="file" @change="onFileChange" id="changeFile" />
           </div>
           <button type="submit" class="btn btn-primary">Upload music</button>
@@ -31,7 +29,6 @@
       $('#menu-toggle').click((e) => {
         e.preventDefault();
         $('#wrapper').toggleClass('toggled');
-        // $("#menu-toggle").css("display", "none");
       });
     },
     methods: {
@@ -85,6 +82,10 @@
     top: 5px;
     right: -50px;
     border-radius: 10px;
+
+    &:active {
+      outline: 0px !important;
+    }
   }
 
   @media (max-width: 768px) {

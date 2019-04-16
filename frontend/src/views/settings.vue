@@ -13,10 +13,10 @@
 </template>
 
 <script>
-export default {
-  name: 'settings',
-  components: {},
-};
+  export default {
+    name: 'settings',
+    components: {},
+  };
 
 </script>
 
