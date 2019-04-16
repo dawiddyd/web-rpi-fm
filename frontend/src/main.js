@@ -18,16 +18,16 @@ axios.defaults.baseURL = 'http://192.168.0.107:9000';
 api.baseurl = axios.defaults.baseURL;
 
 Vue.mixin({
-  data() {
-    return {
-      get api() {
-        return api;
-      },
-    };
-  },
-}),
+    data() {
+      return {
+        get api() {
+          return api;
+        },
+      };
+    },
+  }),
 
-new Vue({
-  router,
-  render: h => h(App),
-}).$mount('#app');
+  new Vue({
+    router,
+    render: h => h(App),
+  }).$mount('#app');

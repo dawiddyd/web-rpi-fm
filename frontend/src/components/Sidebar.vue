@@ -1,28 +1,36 @@
 <template>
-  <div>
-    <div class="d-flex" id="wrapper">
-      <div id="sidebar-wrapper">
-        <button class="btn hover-scale" id="menu-toggle">
-          <font-awesome-icon icon="bars" style="color: white; font-size: 1.5rem;" /> </button>
-        <div class="sidebar-heading">web-rpi-fm</div>
-        <div class="list-group">
-          <router-link class="list-group-item" to="/">Now playing</router-link>
-          <router-link class="list-group-item" to="/mymusic">My Music</router-link>
-          <router-link class="list-group-item" to="/settings">Settings</router-link>
-        </div>
-        <form @submit.prevent="uploadFile" class="mb-2">
-          <div class="upload-btn-wrapper d-flex justify-content-center">
-            <input type="file" @change="onFileChange" id="changeFile" />
-          </div>
-          <button type="submit" class="btn btn-primary">Upload music</button>
-        </form>
+  <div class="d-flex" id="wrapper">
+    <div id="sidebar-wrapper">
+      <button class="btn hover-scale" id="menu-toggle">
+        <font-awesome-icon icon="bars" style="color: white; font-size: 1.5rem;" /> </button>
+      <div class="sidebar-heading">web-rpi-fm</div>
+      <div class="list-group">
+        <router-link class="list-group-item" to="/">Now playing</router-link>
+        <router-link class="list-group-item" to="/mymusic">My Music</router-link>
+        <router-link class="list-group-item" to="/settings">Settings</router-link>
       </div>
+      <form @submit.prevent="uploadFile" class="mb-2">
+        <div class="upload-btn-wrapper d-flex justify-content-center">
+          <input v-if="!this.filename" type="file" @change="onFileChange" name="changeFile"
+            id="changeFile" />
+          <label v-if="this.filename" for="changeFile">{{ this.filename }}</label>
+          <label v-else for="changeFile">Upload music</label>
+        </div>
+        <button type="submit" v-show="this.filename" class="btn btn-primary">Upload file</button>
+      </form>
+      <span id="copyright">
+        <a href="http://github.com/youngdydlak">Me on <strong>GitHub</strong></a></span>
     </div>
   </div>
 </template>
 
 <script>
   export default {
+    data() {
+      return {
+        filename: '',
+      }
+    },
     name: 'Sidebar',
 
     mounted() {
@@ -34,6 +42,8 @@
     methods: {
       onFileChange(event) {
         this.file = event.target.files[0];
+        console.log(this.file);
+        this.filename = this.file.name;
       },
       async uploadFile() {
         const formData = new FormData();
@@ -43,6 +53,7 @@
           try {
             await this.api.uploadFile(formData);
             this.api.songs = await this.api.getLs();
+            this.filename = null;
           } catch (e) {
             this.api.processException(e);
           }
@@ -131,6 +142,46 @@
 
     #wrapper.toggled #sidebar-wrapper {
       margin-left: -21rem;
+    }
+  }
+
+  #changeFile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  #changeFile+label {
+    cursor: pointer;
+    border: 1px solid white;
+    background: transparent;
+    border-radius: 25px;
+    font-size: 1.25em;
+    font-weight: 400;
+    color: white;
+    display: inline-block;
+    transition: 200ms;
+    line-height: 1.5;
+    padding: .375rem .75rem;
+  }
+
+  #changeFile:focus+label,
+  #changeFile+label:hover {
+    background-color: #185DCA;
+    border: 1px solid #185DCA;
+  }
+
+  #copyright {
+    position: absolute;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+
+    & a {
+      color: white;
     }
   }
 
