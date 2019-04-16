@@ -8,9 +8,9 @@
       <h1 v-else class="media-title">Nothing playing</h1>
       <h5 v-if="api.status.name" class="media-artist">{{ api.status.author }}</h5>
       <h5 v-else class="media-artist">Play music in the My Music page</h5>
-      <input class="mb-2" id="frequency" type="number" step="0.1" placeholder="Frequency"
+      <input id="frequency" type="number" step="0.1" placeholder="Frequency"
         v-model="new_frequency"><br />
-      <button type="submit" class="btn btn-primary">Save</button>
+      <!-- <button type="submit" class="btn btn-primary">Save</button> -->
     </div>
   </div>
 </template>
@@ -62,10 +62,12 @@
   }
 
   #frequency {
+    padding: 0px;
     background: transparent;
     border: none;
     font-size: 7.5rem;
     width: 100%;
+    height: 100%;
     text-align: center;
     color: white;
     font-weight: 100;

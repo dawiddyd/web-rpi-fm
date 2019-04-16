@@ -93,7 +93,7 @@
   }
 
   html {
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   #app {
@@ -105,10 +105,9 @@
   }
 
   #background {
-    position: absolute;
+    position: fixed;
     height: 100%;
     width: 100%;
-    /* background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../assets/background.jpg); */
     filter: blur(15px);
     background-size: cover;
     background-position: center;
@@ -119,9 +118,8 @@
   #page-content-wrapper {
     position: relative;
     min-width: 100vw;
-    /*Do naprawy (urzadzenia mobilne)*/
-    min-height: 100vh;
-    padding-top: 50px;
+    height: 100%;
+    padding-top: 40px;
   }
 
   .btn-primary {

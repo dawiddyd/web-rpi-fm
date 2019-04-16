@@ -17,19 +17,19 @@
 </template>
 
 <script>
-export default {
-  name: 'PlaybackBar',
-  methods: {
-    async startPlaying() {
-      try {
-        await this.api.startPlaying();
-        this.api.status = await this.api.getStatus();
-      } catch (e) {
-        this.api.processException(e);
-      }
-    },
+  export default {
+    name: 'PlaybackBar',
+    methods: {
+      async startPlaying() {
+        try {
+          await this.api.startPlaying();
+          this.api.status = await this.api.getStatus();
+        } catch (e) {
+          this.api.processException(e);
+        }
+      },
 
-    async stopPlaying() {
+      async stopPlaying() {
         try {
           await this.api.stopPlaying();
           window.clearInterval(this.timer);
@@ -41,12 +41,11 @@ export default {
           this.api.processException(e);
         }
       },
-  },
-};
+    },
+  };
 
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .playback-nav {
     cursor: pointer;
