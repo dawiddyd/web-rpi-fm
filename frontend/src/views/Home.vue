@@ -10,7 +10,6 @@
       <h5 v-else class="media-artist">Play music in the My Music page</h5>
       <input id="frequency" autocomplete="off" min="0" type="number" step="0.1"
         placeholder="Frequency" v-model="new_frequency"><br />
-      <!-- <button type="submit" class="btn btn-primary">Save</button> -->
     </div>
   </div>
 </template>

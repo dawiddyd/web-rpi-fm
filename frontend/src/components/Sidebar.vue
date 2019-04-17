@@ -19,7 +19,8 @@
         <button type="submit" v-show="this.filename" class="btn btn-primary">Upload file</button>
       </form>
       <span id="copyright">
-        <a href="http://github.com/youngdydlak">Me on <strong>GitHub</strong></a></span>
+        <a href="http://github.com/youngdydlak" target="_blank">Me on
+          <strong>GitHub</strong></a></span>
     </div>
   </div>
 </template>

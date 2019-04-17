@@ -9,6 +9,8 @@ export const api = {
   songs: [],
   status: [],
   now_playing_freq: localStorage.getItem('freq'),
+  now_playing_index: null,
+
 
   async getLs() {
     this.loading = true;

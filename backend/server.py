@@ -14,7 +14,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 music = UploadSet('music', AUDIO)
 
-app.config["UPLOADED_MUSIC_DEST"] = ""
+app.config["UPLOADED_MUSIC_DEST"] = "static/audio"
 app.config["JSON_AS_ASCII"] = False
 configure_uploads(app, music)
 

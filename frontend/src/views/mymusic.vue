@@ -23,8 +23,7 @@
             </tr>
             <tr v-for="(song, index) in api.songs" :key="song.filename">
               <td>
-                <img v-if="song.img" :src="'http://192.168.0.107:9000/static/img/' + song.img"
-                  width="40">
+                <img v-if="song.img" :src="api.baseurl+ '/static/img/' + song.img" width="40">
                 <img v-else src="../assets/default-cover.png" width="40">
               </td>
               <td>
@@ -40,7 +39,7 @@
                 <span v-else>Unknown length</span>
               </td>
               <td>
-                <img v-if="api.status.name != song.name"
+                <img v-if="api.status.filename != song.filename"
                   @click="startPlaying(index, song.filename, song.filename, song.length)"
                   src="../assets/play-button.svg" class="hover-scale ml-2 mr-2" height="35px">
                 <img v-else @click="stopPlaying()" src="../assets/pause.svg"
@@ -65,12 +64,6 @@
   } from 'timers';
   export default {
     name: 'mymusic',
-    data() {
-      return {
-        now_playing_index: '',
-      };
-    },
-    components: {},
 
     async created() {
       this.api.songs = await this.api.getLs();
@@ -80,30 +73,28 @@
       async startPlaying(index, file_name, radio_text, length) {
         this.stopPlaying();
         try {
-          console.log(index);
           await this.api.startPlaying(file_name, radio_text);
           this.api.status = await this.api.getStatus();
-          this.now_playing_index = index;
+          this.api.now_playing_index = index;
           $('.media-progress-bar').stop(true).css(
             'width', '0%'
           );
+          $('.media-progress-bar').animate({
+            width: '100%',
+          }, length * 1000);
 
-          this.timer = window.setInterval(async () => {
+          this.timer = window.setTimeout(async () => {
             this.api.getTimeElapsed();
-            if (this.api.status.time_elapsed <= length) {
-              $('.media-progress-bar').animate({
-                width: '100%',
-              }, length * 1000);
-            } else {
+            if (!(this.api.status.time_elapsed >= length)) {
               window.clearInterval(this.timer);
               await this.api.stopPlaying();
               $('.media-progress-bar').stop(true).css(
                 'width', '0%'
               )
               this.api.status = await this.api.getStatus();
-              this.nextSong(this.now_playing_index);
+              this.nextSong(this.api.now_playing_index);
             }
-          }, 500);
+          }, length * 1000);
         } catch (e) {
           this.api.processException(e);
         }
