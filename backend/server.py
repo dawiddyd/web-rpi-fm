@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from funcs import *
 from flask_uploads import UploadSet, configure_uploads, AUDIO
 from flask_cors import CORS
@@ -14,7 +14,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 music = UploadSet('music', AUDIO)
 
-app.config["UPLOADED_MUSIC_DEST"] = "static/audio"
+app.config["UPLOADED_MUSIC_DEST"] = ""
 app.config["JSON_AS_ASCII"] = False
 configure_uploads(app, music)
 
@@ -50,6 +50,14 @@ def start():
     start_time = time.time()
 
     return jsonify(), 200
+
+@app.route('/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 @app.route('/stop', methods=["POST"])
 def stop():
