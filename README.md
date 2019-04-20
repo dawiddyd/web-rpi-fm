@@ -1,6 +1,10 @@
 # 📻web-rpi-fm
 Web interface for Raspberry Pi fm transmitter. Made using Vue.js and Python.
 
+<p align="center">
+ <img src="/static/img/preview.png" width="70%">
+</p>
+
 [PiFmRds] on GitHub
 
 
