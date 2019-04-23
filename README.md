@@ -1,4 +1,4 @@
-# 📻web-rpi-fm
+# 📻 web-rpi-fm
 Web interface for Raspberry Pi fm transmitter. Made using Vue.js and Python.
 
 <p align="center">
@@ -10,10 +10,9 @@ Web interface for Raspberry Pi fm transmitter. Made using Vue.js and Python.
 
 ### Installation
 1. Clone repository
-2. Install necessary dependencies
+2. Run install.sh file
 ```sh
-$ sudo apt-get install sox
-$ pip install flask flask_uploads flask_cors tinytag
+$ sudo ./install.sh
 ```
 3. Run terminal and start the server
 ```sh
@@ -26,7 +25,13 @@ For example
 192.168.0.108:9000
 ```
 
-If the music does not play you must to change some permissions
+### Manual installation
+```sh
+$ sudo apt-get install sox libsox-fmt-all libsox-fmt-mp3
+$ pip install flask flask_uploads flask_cors tinytag
+```
+
+If the music does not play you must change some permissions
 ```sh
 $ chmod 777 pifmrds
 $ cd static/audio
@@ -34,8 +39,9 @@ $ chmod 777 pifmrds
 ```
 ### Todos
  - Add more functionalities
- - Fix bugs
+ - Fix bugs and UX
  - Spotify Connect
+ - OpenFM
  
  ### Licence
  MIT
