@@ -44,7 +44,7 @@ def start():
 
     cmd = "sox -t mp3 {} -t wav - | sudo ./pifmrds -audio - -freq {} -rt {}".format(file_name, freq, radio_text) 
     print("Cmd: {}".format(cmd))
-    pifm_proc = subprocess.Popen(cmd, shell=True, cwd="static/audio", preexec_fn=os.setsid)
+    pifm_proc = subprocess.Popen(cmd, shell=True, cwd="", preexec_fn=os.setsid)
 
     playing_file = file_name
     start_time = time.time()
