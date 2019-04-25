@@ -21,12 +21,17 @@ configure_uploads(app, music)
 pifm_proc = None
 playing_file = None
 start_time = 0
+streaming = False
+radio_text = ""
 
 @app.route('/start', methods=["POST"])
 def start():
     global pifm_proc
     global playing_file
     global start_time
+    global streaming
+
+    streaming = False
 
     json = request.get_json()
     file_name = json["file_name"]
@@ -44,7 +49,40 @@ def start():
 
     cmd = "sox -t mp3 {} -t wav - | sudo ./pifmrds -audio - -freq {} -rt {}".format(file_name, freq, radio_text) 
     print("Cmd: {}".format(cmd))
-    pifm_proc = subprocess.Popen(cmd, shell=True, cwd="", preexec_fn=os.setsid)
+    pifm_proc = subprocess.Popen(cmd, shell=True, cwd="static/audio", preexec_fn=os.setsid)
+
+    playing_file = file_name
+    start_time = time.time()
+
+    return jsonify(), 200
+
+@app.route('/starturl', methods=["POST"])
+def starturl():
+    global pifm_proc
+    global playing_file
+    global start_time
+    global streaming
+    global radio_text
+
+    streaming = True
+
+    json = request.get_json()
+    file_name = json["file_name"]
+    freq = json["freq"]
+    radio_text = json["radio_text"]
+    # radio_text = "web-rpi-fm"
+    # m = subprocess.Popen("./pifmrds -audio " + file_name + " -freq " + freq + " -rt " + radio_text)
+    # m.wait()
+    if pifm_proc and not pifm_proc.poll():
+        print("Killing")
+        # os.killpg(os.getpgid(pifm_proc.pid), signal.SIGTERM)
+        subprocess.Popen("sudo killall pifmrds", shell=True)
+        print("Killed")
+        pifm_proc = None
+
+    cmd = "sox -t mp3 {} -t wav - | sudo ./pifmrds -audio - -freq {} -rt {}".format(file_name, freq, radio_text) 
+    print("Cmd: {}".format(cmd))
+    pifm_proc = subprocess.Popen(cmd, shell=True, preexec_fn=os.setsid)
 
     playing_file = file_name
     start_time = time.time()
@@ -79,6 +117,8 @@ def status():
     global pifm_proc
     global playing_file
     global start_time
+    global streaming
+    global radio_text
 
     running = pifm_proc and not pifm_proc.poll()
 
@@ -86,17 +126,25 @@ def status():
         return jsonify({
             "running": False,
         }), 200
+
+    if streaming:
+        return jsonify({
+            "running": True,
+            "filename": playing_file,
+            "name": radio_text,
+            "time_elapsed": time.time() - start_time,
+        }), 200
     
     file = playing_file
     f = TinyTag.get("static/audio/" + file, image=True)
     if not f.title:
         f.title = file
 
+    img_path = None
+    
     img_exists = os.path.isfile("static/img/" + file.split(".")[0] + ".png")
     if img_exists:
         img_path = file.split(".")[0] + ".png"
-    else:
-        img_path = None
 
     return jsonify({
         "running": True,
