@@ -41,7 +41,7 @@ $ chmod 777 pifmrds
  - Add more functionalities
  - Fix bugs and UX
  - Spotify Connect
- - OpenFM
+ - Add more internet radio stations
  
  ### Licence
  MIT
