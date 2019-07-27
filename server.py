@@ -24,6 +24,8 @@ start_time = 0
 streaming = False
 radio_text = ""
 
+def removeNonAscii(s): return "".join(i for i in s if ord(i)<128)
+
 @app.route('/start', methods=["POST"])
 def start():
     global pifm_proc
@@ -36,8 +38,9 @@ def start():
     json = request.get_json()
     file_name = json["file_name"]
     freq = json["freq"]
-    radio_text = json["radio_text"]
-    # radio_text = "web-rpi-fm"
+    file = TinyTag.get("static/audio/" + file_name, image=True)
+    radio_text = removeNonAscii(file.title + " " + file.artist)
+
     # m = subprocess.Popen("./pifmrds -audio " + file_name + " -freq " + freq + " -rt " + radio_text)
     # m.wait()
     if pifm_proc and not pifm_proc.poll():
@@ -47,7 +50,7 @@ def start():
         print("Killed")
         pifm_proc = None
 
-    cmd = "sox -t mp3 {} -t wav - | sudo ./pifmrds -audio - -freq {} -rt {}".format(file_name, freq, radio_text) 
+    cmd = "sox -t mp3 {} -t wav - | sudo ./pifmrds -audio - -freq {} -rt '{}'".format(file_name, freq, radio_text) 
     print("Cmd: {}".format(cmd))
     pifm_proc = subprocess.Popen(cmd, shell=True, cwd="static/audio", preexec_fn=os.setsid)
 
