@@ -9,7 +9,7 @@ Web interface for Raspberry Pi fm transmitter. Made using Vue.js and Python.
 
 
 ### Installation
-1. Clone repository
+1. Get the latest [release]
 2. Run install.sh file
 ```sh
 $ sudo ./install.sh
@@ -50,3 +50,4 @@ web-rpi-fm is in the alpha phase, some functions may not work.
 I am not responsible for damages caused by using the application.
 
  [PiFmRds]: <https://github.com/ChristopheJacquet/PiFmRds>
+ [release]: <https://github.com/dawiddydlinski/web-rpi-fm/releases>
